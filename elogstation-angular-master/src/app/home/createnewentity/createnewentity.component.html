@@ -1,0 +1,336 @@
+<div class="row" *ngIf=showOrg>
+    <h5 class="header col s12 light">Create new Organization/Carrier
+    </h5> 
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col m8 s10">
+          <input placeholder="Enter the new organization name" required minlength="4" maxlength="120" #newOrgName type="text">
+          <label for="org_name"></label>
+        </div>
+        
+        <div class="input-field col m4 s10">
+            <button 
+              *ngIf="(newOrgName.value.length >= 4 && newOrgName.value.length <= 120)"
+              (click)="createNewOrg(newOrgName.value)" class="btn waves-effect waves-light blue" type="submit" name="action">Create
+              <i class="material-icons right">send</i>
+            </button>
+        </div>
+
+        <div class="collection col s12">
+            <a class="collection-item redColor"
+            *ngIf="!(newOrgName.value.length >= 4 && newOrgName.value.length <= 120)">   
+              Carrier Name String between 4 and 120 characters in length
+            </a>
+        </div>
+        
+      </div>
+    </form>
+</div>
+
+<div class="row" *ngIf=showAdmins>
+    <h5 class="header col s12 light">Add new admins to <i>{{ singleOrg.name }}</i>
+    </h5> 
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="admin_autocomplete_input" placeholder="Enter the new admin name" 
+          type="text" class="autocomplete">
+          <label for="admin_autocomplete_input"></label>
+        </div>
+      </div>
+    </form>
+</div>
+
+<div class="row" *ngIf=showMembers>
+    <h5 class="header col s12 light">Add new members to <i>{{ singleOrg.name }}</i>
+    </h5> 
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="member_autocomplete_input" placeholder="Enter the new member name" 
+          type="text" class="autocomplete">
+          <label for="member_autocomplete_input"></label>
+        </div>
+      </div>
+    </form>
+</div>
+
+<div class="row" *ngIf=showElds>
+    <h5 class="header col s12 light">Add new elds to <i>{{ singleOrg.name }}</i>
+    </h5> 
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col m8 s10">
+          <input placeholder="Enter the new ELD Identifier" #newEld required minlength="6" maxlength="6" type="text">
+          <label for="eld_id"></label>
+        </div>
+        <div class="input-field col m8 s10">
+            <input placeholder="Enter the ELD Registration ID" required minlength="4" maxlength="4" #newEldRegistrationId type="text">
+            <label for="eld_id"></label>
+          </div>
+        <div class="input-field col m4 s10">
+            <button 
+              *ngIf="(newEld.value.length == 6) && (newEldRegistrationId.value.length == 4)"
+              (click)="createNewEld(newEld.value, newEldRegistrationId.value)" class="btn waves-effect waves-light blue" type="submit" name="action">Add
+              <i class="material-icons right">send</i>
+            </button>
+        </div>
+        <div class="collection col s12">
+          <a class="collection-item redColor"
+          *ngIf="!(newEld.value.length == 6)">   
+            ELD Identifier A six character alphanumeric identifier using characters A–Z and number 0–9.
+          </a>
+          <a class="collection-item redColor"
+          *ngIf="!(newEldRegistrationId.value.length == 4)">   
+            ELD Registration ID A four character alphanumeric registration identifier using characters A–Z and numbers 0–9.
+          </a>
+        </div>
+      </div>
+    </form>
+</div>
+
+<div class="row" *ngIf=showTrucks>
+    <h5 class="header col s12 light">Add new CMV/trucks to <i>{{ singleOrg.name }}</i>
+    </h5> 
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col m8 s10">
+          <input placeholder="Enter the new truck name" #newTruckName required minlength="1" maxlength="20" type="text">
+        </div>
+        <div class="input-field col m8 s10">
+          <input placeholder="Enter CMV Power Unit Number" #newTruckCMVPowerUnitNumber required minlength="1" maxlength="10" type="text">
+        </div>
+        <div class="input-field col m8 s10">
+          <input placeholder="Enter CMV VIN" #newTruckCMVVIN required minlength="17" maxlength="17" type="text">
+        </div>
+        <div class="input-field col m8 s10">
+          <input placeholder="Enter Trailer Number(s)" #newTruckTrailerNumbers type="text">
+        </div>
+        
+        <div class="input-field col m4 s10">
+            <button 
+              *ngIf="(newTruckName.value.length > 0) && (newTruckCMVPowerUnitNumber.value.length >= 1 && newTruckCMVPowerUnitNumber.value.length <= 10) && (newTruckCMVVIN.value.length == 17)"
+              (click)="createNewTruck(newTruckName.value, newTruckCMVPowerUnitNumber.value, newTruckCMVVIN.value, newTruckTrailerNumbers.value)" class="btn waves-effect waves-light blue" type="submit" name="action">Add
+              <i class="material-icons right">send</i>
+            </button>
+        </div>
+      </div>
+      <div class="collection col s12">
+        <a class="collection-item redColor"
+        *ngIf="!(newTruckName.value.length > 0)">   
+          Truck Name enter a friendly name of less than 20 characters
+        </a>
+        <a class="collection-item redColor"
+        *ngIf="!(newTruckCMVPowerUnitNumber.value.length >= 1 && newTruckCMVPowerUnitNumber.value.length <= 10)">   
+          CMV Power Unit Number String between 1 and 10 characters in length
+        </a>
+        <a class="collection-item redColor"
+        *ngIf="!(newTruckCMVVIN.value.length == 17)">   
+          CMV VIN String of 17 characters
+        </a>
+      </div>
+    </form>
+</div>
+
+<div class="row" *ngIf=showSubmissions>
+  <h5 class="header col s12 light">Create new submission to <i>{{ singleOrg.name }}</i>
+  </h5> 
+  <form class="col s8 offset-s2 col centered" #f="ngForm" (ngSubmit)="createNewSubmissions(f)">
+    <div class="row">
+      <div class="input-field col s12">
+      
+        <ul class="collapsible expandable">
+          <li>
+              <div class="collapsible-header"><i class="material-icons">date_range</i>Date/Time Range</div>
+              <div class="collapsible-body">
+                  <h6 class="header col s4">Select date range:</h6>
+                  <form [formGroup]="myForm" class="s12" novalidate>
+                    <my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions"
+                                    formControlName="myDateRange" 
+                                    (dateRangeChanged)="onDateRangeChanged($event)"
+                                    ></my-date-range-picker>
+                  </form>
+              </div>
+            </li>
+          <li>
+            <div class="collapsible-header"><i class="material-icons">person</i>Driver</div>
+            <div class="collapsible-body">
+              <div class="collection blue" *ngFor="let person of persons" >
+                <a class="collection-item">
+                      <label>
+                        <input type="radio" name="driver" value="{{person.sub}}" [(ngModel)]="driver" required />
+                        <span>{{ person.name }} ( {{ person.sub }} )</span>
+                      </label>
+                </a>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="collapsible-header"><i class="material-icons">person_outline</i>Co-Driver</div>
+            <div class="collapsible-body">
+              <div class="collection blue" *ngFor="let person of persons">
+                <a class="collection-item">
+                      <label>
+                        <input type="radio" name="codriver" value="{{person.sub}}" [(ngModel)]="codriver" required/>
+                        <span>{{ person.name }} ( {{ person.sub }} )</span>
+                      </label>
+                </a>
+              </div>
+              <div class="collection blue">
+                <a class="collection-item">
+                      <label>
+                        <input type="radio" name="codriver" value="none" [(ngModel)]="codriver" required/>
+                        <span>None</span>
+                      </label>
+                </a>
+              </div>
+              
+            </div>
+          </li>
+          <li>
+            <div class="collapsible-header"><i class="material-icons">local_shipping</i>Power Unit/CMV/Truck</div>
+            <div class="collapsible-body">
+              <div class="collection blue" *ngFor="let singleOrgTruck of singleOrg.trucks">
+                <a class="collection-item">
+                    <label>
+                      <input type="radio" name="truck" value="{{singleOrgTruck.truckName}}" [(ngModel)]="truck" required/>
+                      <span>{{ singleOrgTruck.truckName }}</span>
+                    </label>
+                </a>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="collapsible-header"><i class="material-icons">business</i>Carrier/Org</div>
+            <div class="collapsible-body">
+                <table class="centered">
+                    <tbody>
+                        <tr>
+                            <td>USDOT Number</td>
+                            <td>
+                                <input disabled value="{{singleOrg?.usdotNumber}}" type="text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Carrier Legal Name</td>
+                            <td>
+                                <input disabled value="{{singleOrg?.name}}"  type="text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Multi Day Basis Used</td>
+                            <td>
+                                <input disabled value="{{singleOrg?.multiDayBasisUsed}}" type="number">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>24 Hour Period Time Starting Time</td>
+                            <td>
+                                <input disabled value="{{singleOrg?.twentyFourHourPeriodTimeStartingTime}}" type="text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Time Offset from UTC</td>
+                            <td>
+                                <input disabled value="{{singleOrg?.timeOffsetFromUTC}}" type="text">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+          </li>
+          <li>
+            <div class="collapsible-header"><i class="material-icons">mail</i>Shipping</div>
+            <div class="collapsible-body">
+                <table class="centered">
+                    <tbody>
+                        <tr>
+                            <td>Shipping Document Number</td>
+                            <td>
+                                <input name="newShippingDocumentNumber" [(ngModel)]="newShippingDocumentNumber" type="text" required>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Exempt Driver Configuration</td>
+                            <td>
+                                <div class="input-field col s12">
+                                  <select name="newExemptDriverConfiguration" [(ngModel)]="newExemptDriverConfiguration" required>
+                                    <option value="0">Not Exempted</option>
+                                    <option value="E">Exempted</option>
+                                  </select>    
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+          </li>
+          <li>
+            <div class="collapsible-header"><i class="material-icons">access_time</i>Time/Place</div>
+            <div class="collapsible-body">
+                <table class="centered">
+                    <tbody>
+                        <tr>
+                            <td>Current Latitude</td>
+                            <td>
+                                <input disabled value="{{currentLatitude}}" name="newCurrentLatitude" [(ngModel)]="newCurrentLatitude" type="text" required>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Current Longitude</td>
+                            <td>
+                                <input disabled value="{{currentLongitude}}" name="newCurrentLongitude" [(ngModel)]="newCurrentLongitude" type="text" required>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Current Total Vehicle Miles</td>
+                            <td>
+                                <input name="newCurrentTotalVehicleMiles" [(ngModel)]="newCurrentTotalVehicleMiles" type="number" required min="0" max="9999999">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Current Total Engine Hours</td>
+                            <td>
+                                <input name="newCurrentTotalEngineHours" [(ngModel)]="newCurrentTotalEngineHours" type="number" required min="1" max="99999.99">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>ELD Authentication Value</td>
+                            <td>
+                                <input name="newELDAuthenticationValue" [(ngModel)]="newELDAuthenticationValue" type="text" required minlength="16">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Output File Comment</td>
+                            <td>
+                                <input name="newOutputFileComment" [(ngModel)]="newOutputFileComment" type="text" required maxlength="100">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+          </li>
+          <li>
+            <div class="collapsible-header"><i class="material-icons">devices</i>ELD</div>
+            <div class="collapsible-body">
+                <div class="collection blue" *ngFor="let singleOrgEld of singleOrg.elds">
+                  <a class="collection-item">
+                      <label>
+                        <input type="radio" name="eld" value="{{singleOrgEld.name}}" [(ngModel)]="eld" required/>
+                        <span>{{ singleOrgEld.name }} [{{ singleOrgEld.registrationId }}]</span>
+                      </label>
+                  </a>
+                </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="input-field col s12">
+          <button [disabled]="!f.valid" class="btn waves-effect waves-light blue" type="submit" name="action">Create Output File
+            <i class="material-icons right">send</i>
+          </button>
+      </div>
+    </div>
+  </form>
+</div>
+        

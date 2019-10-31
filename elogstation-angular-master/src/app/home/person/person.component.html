@@ -1,0 +1,46 @@
+<h5 class="header col s12 light"> {{ person.name }}
+</h5>
+
+<div class="col s12">
+
+    <ul class="tabs blue">
+      <li class="tab col s2"><a (click)="showAccountInfo('status')" class="active">Status</a></li>
+      <li class="tab col s2"><a (click)="showAccountInfo('tracking')" >Tracking</a></li>
+    </ul>
+
+</div>
+<div class="col s12" [hidden]="!showAccountInfoStatus">
+    <h6 class="header col s4">Select date range:</h6>
+    <form [formGroup]="myFormStatus" class="s12" novalidate>
+      <my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions"
+                      formControlName="myDateRange" 
+                      (dateRangeChanged)="onDateRangeChangedStatus($event)"
+                      ></my-date-range-picker>
+    </form>
+  <div class="collection blue" *ngFor="let currentStatus of currentStatuses">
+    <a  class="collection-item"><span class="left">{{ currentStatus.statusType }}</span> 
+      <span class="badge">{{ currentStatus.deviceTime }}</span> 
+      {{ currentStatus.deviceId }}</a>
+  </div>
+</div>
+
+<div class="col s12" [hidden]="!showAccountInfoTracking">
+  <h6 class="header col s4">Select date range:</h6>
+  <form [formGroup]="myFormTracking" class="s12" novalidate>
+    <my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions"
+                    formControlName="myDateRange" 
+                    (dateRangeChanged)="onDateRangeChangedTracking($event)"
+                    ></my-date-range-picker>
+  </form>
+  
+  <div class="collection blue" *ngFor="let currentTracking of currentTrackings">
+    <a  class="collection-item"><span class="left">
+      Lat: {{ currentTracking.latitude }}, Long: {{ currentTracking.longitude }}
+      Odo: {{ currentTracking.odometer }}, RPM: {{ currentTracking.rpm }}
+      </span> 
+      <span class="badge">{{ currentTracking.gpsDateTime }}</span> 
+      Speed: {{ currentTracking.speed }}</a>
+  </div>
+  
+</div>
+

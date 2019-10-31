@@ -1,0 +1,21 @@
+<div class="col s12">
+
+    <ul class="tabs blue">
+      <li class="tab col s3"><a class="active">User Management</a></li>
+    </ul>
+
+    <div class="collection blue" *ngFor="let person of persons">
+      <a class="collection-item">
+        {{ person.name }} ( {{ person.sub }} )
+            <label class="right rightspace">
+              <input (click)=superUserCheckboxClicked(person) type="checkbox" [checked]="person.isSuperUser" />
+              <span>Super User</span>
+            </label>
+            <label class="right rightspace">
+              <input (click)=blockedUserCheckboxClicked(person) type="checkbox" [checked]="person.isBlockedUser" />
+              <span>Blocked User</span>
+            </label>
+      </a>
+  </div>
+
+</div>

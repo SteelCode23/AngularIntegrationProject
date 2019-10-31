@@ -1,0 +1,130 @@
+/* You can add global styles to this file, and also import other style files */
+
+html { 
+    height:100%;
+}
+body { 
+    min-height:100%;
+}
+
+.containerMain {
+    padding-left: 20px;
+}
+
+.collection a.collection-item {
+    color: #039be5;
+}
+
+.collection a.collection-item.redColor {
+    color: red;
+}
+
+.collection {
+    margin: 0px;
+    border: 0px;
+}
+
+.collection.active a.collection-item {
+    background-color: #ddd !important;
+}
+
+.breadcrumb, .card-content, .buttonBreadcrumb {
+    color: white;
+}
+
+.collection.sideBar {
+    border: none;
+    margin-bottom: 20px;
+}
+
+.collection.sideBar div {
+    color: white;
+    font-size: 16px;
+}
+
+.tabs .tab a:hover, .tabs .tab a.active {
+    color: white;
+}
+
+.tabs .indicator, .whiteBackground {
+    background-color: white;
+}
+
+.tabs .tab a {
+    color: rgba(255,255,255,0.7);
+}
+.tabs {
+    margin-top: 20px !important;
+}
+
+.mydrp, .mydrp .headerclearbtn, .mydrp .headerokbtn {
+    border: 0px !important;
+}
+
+.deleteimage {
+    width: 20px;
+}
+
+.rightspace {
+    margin-right: 20px;
+}
+
+[type="checkbox"]:checked+span:not(.lever):before {
+    border-right: 2px solid #039be5;
+    border-bottom: 2px solid #039be5;
+}
+
+[type="radio"]:checked+span:after, [type="radio"].with-gap:checked+span:before, [type="radio"].with-gap:checked+span:after {
+    background-color: #039be5;
+    border-bottom: 2px solid #039be5;
+}
+
+.tabs .tab a, .tabs .tab img, span, .breadcrumb, .collection.sideBar .collection-item {
+    cursor: pointer !important;   
+}
+
+.progress {
+    background-color: transparent !important;
+}
+
+.progress .indeterminate, .blueBackground {
+    background-color: #039be5 !important;
+}
+
+.breadcrumb span {
+    font-style: italic;
+}
+
+p {
+    font-size: 18px !important;
+}
+
+input:focus{
+    border-bottom: 1px solid #039be5 !important;
+    -webkit-box-shadow: 0 1px 0 0 #039be5 !important;
+    box-shadow: 0 1px 0 0 #039be5 !important;
+}
+
+.tab .input-field {
+    margin-top: 0rem !important;
+}
+
+.tab .input-field input{
+    color: white;
+}
+
+.input-field label.active:active {
+    color: #039be5 !important;
+}
+
+[type=text]:not(.browser-default):focus:not([readonly])+label {
+    color: #039be5 !important;
+}
+
+[type=number]:not(.browser-default):focus:not([readonly])+label {
+    color: #039be5 !important;
+}
+
+.dropdown-content li>span {
+    color: #039be5 !important;
+}

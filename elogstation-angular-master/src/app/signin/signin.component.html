@@ -1,0 +1,73 @@
+<nav class="blue" role="navigation">
+  <div class="nav-wrapper containerMain">
+      <a class="breadcrumb" (click)="showApp('main')">ELogStation Admin</a>
+      <a class="breadcrumb" *ngIf=showNews>News</a>
+      <a class="breadcrumb" *ngIf=showContact>Contact</a>
+      <ul class="right hide-on-med-and-down" *ngIf="showRightTabs">
+        <li><a (click)="showApp('news')">News</a></li>
+        <li><a (click)="showApp('contact')">Contact</a></li>
+      </ul>
+  </div>
+</nav>
+
+<div class="section no-pad-bot" *ngIf="showMain">
+  <div class="container">
+    <div class="row center">
+      <h5 class="header col s12 light">Log in to continue</h5>
+    </div>
+    <div class="row center">
+      <div id="customBtn" (click)="signIn()" class="customGPlusSignIn">
+        <span class="icon"></span>
+        <span class="buttonText">Google</span>
+      </div>
+    </div>
+    <div class="progress" *ngIf="showProgressBar">
+      <div class="indeterminate"></div>
+  </div>
+  <div class="row center" *ngIf="showErrorMessage">
+      <a (click)="showCompleteErrorMessage()"class="waves-effect btn-flat">View Error</a>
+      <p *ngIf="showErrorMessageComplete"> {{ errorMessageText }} </p>
+  </div>
+  </div>
+</div>
+
+<div class="section no-pad-bot" *ngIf="showNews">
+  <div class="container">
+    <div class="row">
+      <h5 class="header s12 light">Dashboard DEV is live</h5>
+      <p>
+        <a href="https://elogstation-angular.herokuapp.com/" target="_blank">
+          https://elogstation-angular.herokuapp.com/
+        </a>
+      </p>
+    </div>
+    <div class="row">
+      <h5 class="header s12 light">Android Beta is live</h5>
+      <p>
+        <a href="https://play.google.com/store/apps/details?id=com.elogstation.client.elogstationdrive&hl=en" target="_blank">
+        https://play.google.com/store/apps/details?id=com.elogstation.client.elogstationdrive&hl=en
+        </a>
+      </p>
+    </div>
+    <div class="row">
+      <h5 class="header s12 light">Future Features</h5>
+      <p>Output File Submission</p>
+      <p>Charts to view driver status</p>
+      <p>Google Map view in progress</p>
+    </div>
+  </div>
+</div>
+
+<div class="section no-pad-bot" *ngIf="showContact">
+  <div class="container">
+    <div class="row">
+      <h5 class="header s12 light">Call us on</h5>
+      <p>(xxx) xxx - xxxx</p>
+    </div>
+
+    <div class="row">
+      <h5 class="header s12 light">Email us at</h5>
+      <p>foo@bar.com</p>
+    </div>
+  </div>
+</div>

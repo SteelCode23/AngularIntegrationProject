@@ -1,0 +1,244 @@
+  <!-- Modal Structure -->
+<div class="modal">
+    <div class="modal-content">
+        <h4>Choose Organization
+                <a (click)="createNewEntity('org')" class="btn-floating blue"
+                    *ngIf=eLogStationAuthService.isAdmin
+                >
+                    <i class="material-icons left">add</i>
+                </a>
+        </h4>
+        <div class="collection blue" *ngFor="let singleorg of org" [class.active]="clicked === singleorg" 
+            (click)="clicked = singleorg">
+            <a  class="collection-item">
+                <span (click)=selectOrg(singleorg) >{{ singleorg.name }}</span>
+                <img src="assets/closecircle.png" 
+                *ngIf=eLogStationAuthService.isAdmin
+                (click)=chooseAboutToBeDeletedOrg(singleorg) class="right deleteimage"/>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Structure -->
+<div class="modal">
+    <div class="modal-content">
+        <h5>Do you really want to delete <i>{{ aboutToBeDeletedOrg?.name }}</i> ?
+        </h5>
+    </div>
+    <div class="modal-footer">
+        <a (click)=shouldIDeleteOrg(true) class="modal-close waves-effect waves-green btn-flat">Yes</a>
+        <a (click)=shouldIDeleteOrg(false) class="modal-close waves-effect waves-green btn-flat">No</a>
+    </div>
+</div>
+
+<h5 class="header col s12 light">{{ singleOrg?.name }} 
+</h5> 
+
+<h6 *ngIf=showCount>
+    There are {{ singleOrg?.adminsOrginal?.length || singleOrg?.admins.length }} Admin(s), 
+    {{ singleOrg?.membersOrginal?.length || singleOrg?.members.length }} Member(s) and 
+    {{ singleOrg?.eldsOrginal?.length || singleOrg?.elds.length }} ELD(s) registered in this organization
+</h6>
+
+<div class="col s12" *ngIf=showCount>
+
+    <ul class="tabs blue">
+        <li class="tab col s12"><a class="active">Carrier's Profile</a></li>
+    </ul>
+
+
+
+<div class="row" *ngIf=showCount>
+
+    <table class="s8 offset-s2 col centered">
+        <tbody>
+            <tr>
+                <td>USDOT Number</td>
+                <td>
+                    <input value="{{singleOrg?.usdotNumber}}" #newOrgUsdotNumber required min="1" max="9" type="number" >
+                </td>
+            </tr>
+            <tr>
+                <td>Multi Day Basis Used</td>
+                <td>
+                    <input value="{{singleOrg?.multiDayBasisUsed}}" #newOrgMultiDayBasisUsed type="number">
+                </td>
+            </tr>
+            <tr>
+                <td>24 Hour Period Time Starting Time</td>
+                <td>
+                    <input value="{{singleOrg?.twentyFourHourPeriodTimeStartingTime}}" #newOrgtwentyFourHourPeriodTimeStartingTime type="text">
+                </td>
+            </tr>
+            <tr>
+                <td>Time Offset from UTC</td>
+                <td>
+                    <input value="{{singleOrg?.timeOffsetFromUTC}}" #newOrgTimeOffsetFromUTC type="text">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="input-field col s12">
+        <button 
+        *ngIf="(newOrgUsdotNumber.value.length >= 1 && newOrgUsdotNumber.value.length <= 9) && (newOrgMultiDayBasisUsed.value == 7 || newOrgMultiDayBasisUsed.value == 8) && (newOrgtwentyFourHourPeriodTimeStartingTime.value.length == 6 && newOrgtwentyFourHourPeriodTimeStartingTime.value >= '000000' && newOrgtwentyFourHourPeriodTimeStartingTime.value <= '235959') && (newOrgTimeOffsetFromUTC.value.length == 2 && newOrgTimeOffsetFromUTC.value >= 4 && newOrgTimeOffsetFromUTC.value <= 11)"
+        (click)="updateOrgInfo(singleOrg.id, newOrgUsdotNumber.value, newOrgMultiDayBasisUsed.value, newOrgtwentyFourHourPeriodTimeStartingTime.value, newOrgTimeOffsetFromUTC.value)" class="btn waves-effect waves-light blue" type="submit" name="action">Update
+            <i class="material-icons right">send</i>
+        </button>
+    </div>
+
+    <div class="collection col s12">
+        <a class="collection-item redColor"
+        *ngIf="!(newOrgUsdotNumber.value.length >= 1 && newOrgUsdotNumber.value.length <= 9)">   
+            USDOT Number Integer containing between 1 and 9 digits.
+        </a>
+        <a class="collection-item redColor"
+        *ngIf="!(newOrgMultiDayBasisUsed.value == 7 || newOrgMultiDayBasisUsed.value == 8)">   
+            Multi Day Basis Used Number with a value of 7 or 8.
+        </a>
+        <a class="collection-item redColor"
+        *ngIf="!(newOrgtwentyFourHourPeriodTimeStartingTime.value.length == 6 && newOrgtwentyFourHourPeriodTimeStartingTime.value >= '000000' && newOrgtwentyFourHourPeriodTimeStartingTime.value <= '235959')">   
+            24 Hour Period Time Starting Time Time of day in the format HHMMSS, using a 24-hour time format with 000000 representing midnight.
+        </a>
+        <a class="collection-item redColor"
+        *ngIf="!(newOrgTimeOffsetFromUTC.value.length == 2 && newOrgTimeOffsetFromUTC.value >= 4 && newOrgTimeOffsetFromUTC.value <= 11)">   
+            Time Offset from UTC 2-digit number between 4 and 11 with single digit number containing a leading 0.
+        </a>
+        
+    </div>
+</div>
+</div>
+
+
+<div class="row" *ngIf=showSingleOrg>
+    <div class="col s12" *ngIf=showAdmins>
+        <ul class="tabs blue">
+            <li class="tab col s2"><a class="active">Admins</a></li>
+            <li class="tab col s2">
+                    <div class="input-field">
+                        <input placeholder="Search" (input)="onSearchChangeAdmins($event.target.value)">
+                    </div>                
+            </li>
+            <li class="tab col s2 right" >
+                    <img class="deleteimage" (click)="createNewEntity('admins')" *ngIf=eLogStationAuthService.isAdmin
+                    src="assets/plus.png" /> 
+            </li>
+        </ul>
+
+        <div class="collection blue" *ngFor="let singleOrgAdmin of singleOrg.admins">
+            <a class="collection-item">
+                <span (click)=openPerson(singleOrgAdmin) >{{ singleOrgAdmin.name || singleOrgAdmin.sub}}</span>
+                <img src="assets/closecircle.png" 
+                *ngIf=eLogStationAuthService.isAdmin
+                (click)="chooseAboutToBeDeletedEntity('admin', singleOrgAdmin.sub, singleOrgAdmin.name)" class="right deleteimage"/>
+            </a>
+        </div>
+    </div>
+
+
+  <div class="col s12" *ngIf=showMembers>
+    <ul class="tabs blue">
+        <li class="tab col s2"><a class="active">Members</a></li>
+        <li class="tab col s2">
+                <div class="input-field" >
+                    <input placeholder="Search" (input)="onSearchChangeMembers($event.target.value)">
+                </div>                
+        </li>
+        <li class="tab col s2 right" >
+                <img class="deleteimage" (click)="createNewEntity('members')" *ngIf=eLogStationAuthService.isAdmin
+                src="assets/plus.png" /> 
+        </li>
+    </ul>
+
+    <div class="collection blue" *ngFor="let singleOrgMember of singleOrg.members">
+        <a class="collection-item">
+            <span (click)=openPerson(singleOrgMember) >{{ singleOrgMember.name || singleOrgMember.sub}}</span>
+            <img src="assets/closecircle.png" 
+            *ngIf=eLogStationAuthService.isAdmin
+            (click)="chooseAboutToBeDeletedEntity('member', singleOrgMember.sub, singleOrgMember.name)" class="right deleteimage"/>
+        </a>
+    </div>
+  </div>
+
+  <div class="col s12" *ngIf=showElds>
+
+    <ul class="tabs blue">
+        <li class="tab col s2"><a class="active">Elds</a></li>
+        <li class="tab col s2">
+                <div class="input-field">
+                    <input placeholder="Search" (input)="onSearchChangeElds($event.target.value)">
+                </div>                
+        </li>
+        <li class="tab col s2 right" >
+                <img class="deleteimage" (click)="createNewEntity('elds')" *ngIf=eLogStationAuthService.isAdmin
+                src="assets/plus.png" /> 
+        </li>
+    </ul>
+    <div class="collection blue" *ngFor="let singleOrgEld of singleOrg.elds">
+        <a class="collection-item">
+            <span (click)=openEld(singleOrgEld) >{{ singleOrgEld.name }} [{{ singleOrgEld.registrationId }}]</span>
+            <img src="assets/closecircle.png" *ngIf=eLogStationAuthService.isAdmin
+            (click)="chooseAboutToBeDeletedEntity('eld', singleOrgEld.name, singleOrgEld.name)" class="right deleteimage"/>
+        </a>
+
+    </div>
+  </div>
+  
+  <div class="col s12" *ngIf=showTrucks>
+
+        <ul class="tabs blue">
+            <li class="tab col s2"><a class="active">Trucks</a></li>
+            <li class="tab col s2">
+                    <div class="input-field">
+                        <input placeholder="Search" (input)="onSearchChangeTrucks($event.target.value)">
+                    </div>                
+            </li>
+            <li class="tab col s2 right" >
+                    <img class="deleteimage" (click)="createNewEntity('trucks')" *ngIf=eLogStationAuthService.isAdmin
+                    src="assets/plus.png" /> 
+            </li>
+        </ul>
+        <div class="collection blue" *ngFor="let singleOrgTruck of singleOrg.trucks">
+            <a class="collection-item">
+                <span (click)=openTruck(singleOrgTruck) >{{ singleOrgTruck.truckName }}</span>
+                <img src="assets/closecircle.png" *ngIf=eLogStationAuthService.isAdmin
+                (click)="chooseAboutToBeDeletedEntity('truck', singleOrgTruck.truckName, singleOrgTruck.truckName)" class="right deleteimage"/>
+            </a>
+    
+        </div>
+      </div>
+
+      <div class="col s12" *ngIf=showSubmissions>
+
+        <ul class="tabs blue">
+            <li class="tab col s2"><a class="active">Submissions</a></li>
+            <li class="tab col s2">
+                    <div class="input-field">
+                        <input placeholder="Search" (input)="onSearchChangeSubmissions($event.target.value)">
+                    </div>                
+            </li>
+            <li class="tab col s2 right" >
+                    <img class="deleteimage" (click)="createNewEntity('submissions')"
+                    src="assets/plus.png" /> 
+            </li>
+        </ul>
+        <div class="collection blue" *ngFor="let singleOrgSubmission of singleOrg.submissions">
+            <a class="collection-item">
+                <span (click)=openSubmission(singleOrgSubmission) >{{ singleOrgSubmission.name }}</span>
+            </a>
+    
+        </div>
+      </div>
+
+</div>
+
+<div class="modal">
+        <div class="modal-content">
+            <h5>Do you really want to delete <i>{{ entityToBeDeletedDisplay }}</i> ?
+            </h5>
+        </div>
+        <div class="modal-footer">
+            <a (click)=shouldIDeleteEntity(true) class="modal-close waves-effect waves-green btn-flat">Yes</a>
+            <a (click)=shouldIDeleteEntity(false) class="modal-close waves-effect waves-green btn-flat">No</a>
+        </div>
+    </div>

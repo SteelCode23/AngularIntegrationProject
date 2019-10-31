@@ -1,0 +1,51 @@
+<h5 class="header col s12 light">{{user.name}} ({{user.email}})
+</h5> 
+
+<div class="col s12">
+
+    <ul class="tabs blue">
+        <li class="tab col s2"><a class="active">Profile</a></li>
+    </ul>
+
+    <table class="s8 offset-s2 col centered">
+        <tbody>
+            <tr>
+                <td>License Issuing State({{person.licenseIssuingState}}):</td>
+                <td>
+                    <select required name="newLicenseIssuingState" [(ngModel)]="newLicenseIssuingState" >
+                        <option *ngFor="let stateProv of statesProv" 
+                            [value]="stateProv" 
+                            [selected]="stateProv==person.licenseIssuingState">
+                            {{stateProv}}
+                        </option>
+                    </select> 
+                    <!-- <input value="{{person.licenseIssuingState}}" #newLicenseIssuingState type="text"> -->
+                </td>
+            </tr>
+            <tr>
+                <td>License Number</td>
+                <td>
+                    <input value="{{person.licenseNumber}}" required minlength="1" maxlength="20" name="newLicenseNumber" #newLicenseNumber type="text">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="input-field col s12">
+        <button (click)="updatePersonInfo(newLicenseIssuingState, newLicenseNumber.value)" 
+        *ngIf="(newLicenseIssuingState != null && newLicenseIssuingState.length > 0) && (newLicenseNumber.value.length >= 1 && newLicenseNumber.value.length <= 20)"
+        class="btn waves-effect waves-light blue" type="submit" name="action">Update
+            <i class="material-icons right">send</i>
+        </button>
+    </div>
+
+    <div class="collection col s12">
+        <a class="collection-item redColor"
+        *ngIf="!(newLicenseIssuingState != null && newLicenseIssuingState.length > 0)">   
+            License Issuing State needs to be selected
+        </a>
+        <a class="collection-item redColor"
+        *ngIf="!(newLicenseNumber.value.length >= 1 && newLicenseNumber.value.length <= 20)">   
+            License Number String between 1 and 20 characters
+        </a>
+    </div>
+</div>
